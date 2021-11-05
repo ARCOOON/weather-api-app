@@ -139,5 +139,5 @@ if __name__ == "__main__":
     workerThread = threading.Thread(target=update)
     mainThread = threading.Thread(target=run)
     
-    #workerThread.start()
+    workerThread.start()
     mainThread.start()
