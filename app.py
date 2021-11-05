@@ -4,17 +4,21 @@ from PyQt5.QtCore import Qt
 import datetime as dt
 import threading
 
-from main import *
 from utils import *
+
 
 class Ui_Window(object):
     def setupUi(self, Window):
         self.t = util.time(dt)
-
+        
+        Window.setObjectName("Window")
+        Window.resize(643, 374)
+        
         font = QtGui.QFont()
         font.setPointSize(12)
-
+        
         Window.setFont(font)
+        Window.setWindowTitle("MainWindow")
         Window.setAutoFillBackground(False)
         Window.setStyleSheet("* { background-color: #151515; color:#fff; }")
         Window.setWindowFilePath("")
@@ -36,27 +40,32 @@ class Ui_Window(object):
         font = QtGui.QFont()
         font.setPointSize(13)
         font.setBold(False)
-        
         self.weatherToday.setFont(font)
+        
         self.weatherToday.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.weatherToday.setAutoFillBackground(False)
         self.weatherToday.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.weatherToday.setFrameShadow(QtWidgets.QFrame.Plain)
+        self.weatherToday.setText("Sunny")
+        self.weatherToday.setScaledContents(False)
         self.weatherToday.setAlignment(QtCore.Qt.AlignCenter)
+        self.weatherToday.setWordWrap(False)
         self.weatherToday.setObjectName("weatherToday")
         
         try:
-            self.data = urllib.request.urlopen(getIconLink(call(), 4)).read()
+            #self.data = urllib.request.urlopen(getIconLink(call(), 4)).read()
             self._icon = QPixmap()
-            self._icon.loadFromData(self.data)
+            #self._icon.loadFromData()
 
         except:
-            pass
+            print("[LOG] - No connection to network!")
         
         self.weatherTodayIcon = QtWidgets.QLabel(self.weatherTodayFrame)
         self.weatherTodayIcon.setGeometry(QtCore.QRect(0, 0, 211, 161))
         self.weatherTodayIcon.setText("")
         self.weatherTodayIcon.setTextFormat(QtCore.Qt.AutoText)
         #self.weatherTodayIcon.setPixmap(self._icon)
+        self.weatherTodayIcon.setScaledContents(False)
         self.weatherTodayIcon.setAlignment(QtCore.Qt.AlignCenter)
         self.weatherTodayIcon.setObjectName("weatherTodayIcon")
         
@@ -69,6 +78,8 @@ class Ui_Window(object):
         
         self.datetimeFrame = QtWidgets.QFrame(self.centralwidget)
         self.datetimeFrame.setGeometry(QtCore.QRect(220, 0, 191, 201))
+        self.datetimeFrame.setTabletTracking(False)
+        self.datetimeFrame.setAutoFillBackground(False)
         self.datetimeFrame.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.datetimeFrame.setFrameShadow(QtWidgets.QFrame.Plain)
         self.datetimeFrame.setLineWidth(0)
@@ -76,10 +87,14 @@ class Ui_Window(object):
         
         self.label = QtWidgets.QLabel(self.datetimeFrame)
         self.label.setGeometry(QtCore.QRect(8, 10, 181, 81))
+        
         font = QtGui.QFont()
         font.setPointSize(25)
         font.setBold(True)
+        
         self.label.setFont(font)
+        self.label.setText("00 : 00")
+        self.label.setScaledContents(False)
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
         
@@ -101,12 +116,12 @@ class Ui_Window(object):
         self.wensdayFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.wensdayFrame.setObjectName("wensdayFrame")
         
-        self.thursdayFrame = QtWidgets.QFrame(self.centralwidget)
-        self.thursdayFrame.setGeometry(QtCore.QRect(390, 210, 121, 161))
-        self.thursdayFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.thursdayFrame.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.thursdayFrame.setObjectName("thursdayFrame")
-        
+        self.thuesdayFrame_2 = QtWidgets.QFrame(self.centralwidget)
+        self.thuesdayFrame_2.setGeometry(QtCore.QRect(390, 210, 121, 161))
+        self.thuesdayFrame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.thuesdayFrame_2.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.thuesdayFrame_2.setObjectName("thuesdayFrame_2")
+
         self.fridayFrame = QtWidgets.QFrame(self.centralwidget)
         self.fridayFrame.setGeometry(QtCore.QRect(520, 210, 121, 161))
         self.fridayFrame.setAutoFillBackground(False)
@@ -116,8 +131,13 @@ class Ui_Window(object):
 
         Window.setCentralWidget(self.centralwidget)
 
-    def retranslateUi(self, Window):
-        pass
+        self.retranslateUi()
+
+    def retranslateUi(self):
+            while True:
+                _t = util.time.getSet(self.t)
+                self.label.setText(_t)
+                time.sleep(1)
 
 def run():
     import sys
@@ -129,14 +149,8 @@ def run():
     #Window.show()
     sys.exit(app.exec_())
 
-def update(self):
-    while True:
-        _t = util.time.getSet(self.t)
-        self.label.setText(_t)
-        time.sleep(1)
-
 if __name__ == "__main__":
-    workerThread = threading.Thread(target=update)
+    workerThread = threading.Thread(target=Ui_Window.retranslateUi)
     mainThread = threading.Thread(target=run)
     
     workerThread.start()
