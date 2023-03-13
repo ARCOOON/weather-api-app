@@ -56,9 +56,8 @@ class Ui_Window(object):
             #self.data = urllib.request.urlopen(getIconLink(call(), 4)).read()
             self._icon = QPixmap()
             #self._icon.loadFromData()
-
         except:
-            print("[LOG] - No connection to network!")
+            print("No connection to network!")
         
         self.weatherTodayIcon = QtWidgets.QLabel(self.weatherTodayFrame)
         self.weatherTodayIcon.setGeometry(QtCore.QRect(0, 0, 211, 161))
@@ -116,11 +115,11 @@ class Ui_Window(object):
         self.wensdayFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.wensdayFrame.setObjectName("wensdayFrame")
         
-        self.thuesdayFrame_2 = QtWidgets.QFrame(self.centralwidget)
-        self.thuesdayFrame_2.setGeometry(QtCore.QRect(390, 210, 121, 161))
-        self.thuesdayFrame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.thuesdayFrame_2.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.thuesdayFrame_2.setObjectName("thuesdayFrame_2")
+        self.thursdayFrame = QtWidgets.QFrame(self.centralwidget)
+        self.thursdayFrame.setGeometry(QtCore.QRect(390, 210, 121, 161))
+        self.thursdayFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.thursdayFrame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.thursdayFrame.setObjectName("thursdayFrame")
 
         self.fridayFrame = QtWidgets.QFrame(self.centralwidget)
         self.fridayFrame.setGeometry(QtCore.QRect(520, 210, 121, 161))
@@ -131,12 +130,11 @@ class Ui_Window(object):
 
         Window.setCentralWidget(self.centralwidget)
 
-        self.retranslateUi()
+        self.updateUI()
 
-    def retranslateUi(self):
+    def updateUI(self):
             while True:
-                _t = util.time.getSet(self.t)
-                self.label.setText(_t)
+                self.label.setText(util.time.getSet(self.t))
                 time.sleep(1)
 
 def run():
@@ -146,11 +144,11 @@ def run():
     ui = Ui_Window()
     ui.setupUi(Window)
     Window.showMaximized()
-    #Window.show()
+    # Window.show()
     sys.exit(app.exec_())
 
 if __name__ == "__main__":
-    workerThread = threading.Thread(target=Ui_Window.retranslateUi)
+    workerThread = threading.Thread(target=Ui_Window.updateUI)
     mainThread = threading.Thread(target=run)
     
     workerThread.start()

@@ -16,7 +16,7 @@ def getIcon(weather_data):
 
 def getIconLink(weather_data, size=2):
     iconData = weather_data["list"][0]['weather'][0]['icon']
-    iconLink = (f"http://openweathermap.org/img/wn/{iconData}@{size}x.png")
+    iconLink = f"http://openweathermap.org/img/wn/{iconData}@{size}x.png"
     return iconLink
 
 
